@@ -1,15 +1,17 @@
-export default class Sorvetes{
-    constructor(raio,altura,densidade){
-        this.raio = raio
-        this.altura = altura
-        this.densidade = densidade 
+export default class Sorvetes {
+    constructor(raio, altura, densidade) {
+        this.raio = raio;
+        this.altura = altura;
+        this.densidade = densidade; 
     }
     
-    calcularVolume(){
-        return Math.PI * (this.raio * this.raio) * this.altura
+    calcularVolume() {
+        // Volume do cilindro: PI * r² * h
+        return Math.PI * Math.pow(this.raio, 2) * this.altura;
     }
-    conversaoMassa(){
-        return this.calcularVolume() * this.densidade
-    }
-    }   
 
+    conversaoMassa() {
+        // Massa = Volume * Densidade
+        return this.calcularVolume() * this.densidade;
+    }
+}

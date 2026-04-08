@@ -1,5 +1,4 @@
 export default class Receita {
-    // Todos os ingredientes devem ser definidos nos parâmetros do construtor
     constructor(
         leiteIntegral = 200, 
         leiteCondensado = 134, 
@@ -9,7 +8,6 @@ export default class Receita {
         emulsificante = 5, 
         chocolateMeioAmargo = 20
     ) {
-        // Atribuição correta aos atributos da classe
         this.leiteIntegral = leiteIntegral;
         this.leiteCondensado = leiteCondensado;
         this.cremeDeLeite = cremeDeLeite;
@@ -18,19 +16,16 @@ export default class Receita {
         this.emulsificante = emulsificante;
         this.chocolateMeioAmargo = chocolateMeioAmargo;
 
-        // Cálculo do peso base somando os atributos
         this.pesoBase = this.leiteIntegral + this.leiteCondensado + this.cremeDeLeite + 
                         this.polpadeMaracuja + this.ligaNeutra + this.emulsificante + 
                         this.chocolateMeioAmargo;
 
-        // Atributos para armazenar resultados
         this.receita = {};
         this.totalSorvetes = 0;
     }
 
-    // Calcula quanto de cada ingrediente é necessário para 1.000.000g (1 Tonelada)
     calcularQtdeIngredientes() {
-        const fatorEscala = 1000000 / this.pesoBase;
+        const fatorEscala = 1000000 / this.pesoBase; // Escala para 1 Tonelada
 
         this.receita = {
             leiteIntegral: this.leiteIntegral * fatorEscala,
@@ -45,18 +40,9 @@ export default class Receita {
         return this.receita;
     }
 
-    // Calcula quantos sorvetes (potes/unidades) saem de 1 Tonelada de massa
     calcularQtdeSorvetes(pesoUnitario) {
         if (pesoUnitario <= 0) return 0;
-        
-        this.totalSorvetes = 1000000 / pesoUnitario;
-        this.verificarQtdeInteira();
-
+        this.totalSorvetes = Math.floor(1000000 / pesoUnitario);
         return this.totalSorvetes;
-    }
-
-    verificarQtdeInteira() {
-        // Garante que não teremos "meio" sorvete no resultado final
-        this.totalSorvetes = Math.floor(this.totalSorvetes);
     }
 }

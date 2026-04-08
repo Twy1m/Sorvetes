@@ -1,6 +1,4 @@
-
 export default class Custo {
-    // Valores em R$ por kg ou por Litro (ex: leite R$ 5.50/L)
     constructor(
         leiteIntegral = 5.50, 
         leiteCondensado = 18.00, 
@@ -18,14 +16,11 @@ export default class Custo {
         this.emulsificante = emulsificante;
         this.chocolateMeioAmargo = chocolateMeioAmargo;
 
-        // Atributos do resultado dos cálculos
         this.precoIngredientes = {};
         this.totalCusto = 0;
     }
 
-    // Recebe o objeto qtdeIngredientes calculado pela classe Receita
     calcularCusto(qtdeIngredientes) {
-        // Dividimos a qtde (gramas) por 1000 para obter quilos/litros e multiplicamos pelo preço
         this.precoIngredientes = {
             leiteIntegral: Number(((qtdeIngredientes.leiteIntegral / 1000) * this.leiteIntegral).toFixed(2)),
             leiteCondensado: Number(((qtdeIngredientes.leiteCondensado / 1000) * this.leiteCondensado).toFixed(2)),
@@ -37,12 +32,11 @@ export default class Custo {
         };
 
         this.somarTotalCusto();
-
         return this.precoIngredientes;
     }
 
     somarTotalCusto() {
-        // Soma todos os valores do objeto de preços
+        // Correção: Transformando o objeto em array de valores antes do reduce
         const valores = Object.values(this.precoIngredientes);
         const somaBruta = valores.reduce((acumulador, valor) => acumulador + valor, 0);
         
