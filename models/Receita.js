@@ -1,48 +1,41 @@
 export default class Receita {
-    constructor(
-        leiteIntegral = 200, 
-        leiteCondensado = 134, 
-        cremeDeLeite = 100, 
-        polpadeMaracuja = 50, 
-        ligaNeutra = 3.5, 
-        emulsificante = 5, 
-        chocolateMeioAmargo = 20
-    ) {
-        this.leiteIntegral = leiteIntegral;
-        this.leiteCondensado = leiteCondensado;
-        this.cremeDeLeite = cremeDeLeite;
-        this.polpadeMaracuja = polpadeMaracuja;
-        this.ligaNeutra = ligaNeutra;
-        this.emulsificante = emulsificante;
-        this.chocolateMeioAmargo = chocolateMeioAmargo;
-
-        this.pesoBase = this.leiteIntegral + this.leiteCondensado + this.cremeDeLeite + 
-                        this.polpadeMaracuja + this.ligaNeutra + this.emulsificante + 
-                        this.chocolateMeioAmargo;
-
-        this.receita = {};
-        this.totalSorvetes = 0;
+    // valores padrão em gramas/ml
+    constructor(leite = 500, creme = 300, acucar = 150, sucoMaracuja = 100, caldaChocolate = 50) {
+        this.leite = leite,
+        this.creme = creme,
+        this.acucar = acucar,
+        this.sucoMaracuja = sucoMaracuja,
+        this.caldaChocolate = caldaChocolate,
+        // peso base da receita
+        this.pesoBase = this.leite + this.creme + this.acucar +
+                        this.sucoMaracuja + this.caldaChocolate
+        // atributo do resultado dos cálculos
+        this.receita = {}
+        this.totalSorvete = 0
     }
 
+    // referência 1 Tonelada ou 1.000.000 de gramas
     calcularQtdeIngredientes() {
-        const fatorEscala = 1000000 / this.pesoBase; // Escala para 1 Tonelada
-
+        const fatorEscala = 1000000 / this.pesoBase
         this.receita = {
-            leiteIntegral: this.leiteIntegral * fatorEscala,
-            leiteCondensado: this.leiteCondensado * fatorEscala,
-            cremeDeLeite: this.cremeDeLeite * fatorEscala,
-            polpadeMaracuja: this.polpadeMaracuja * fatorEscala,
-            ligaNeutra: this.ligaNeutra * fatorEscala,
-            emulsificante: this.emulsificante * fatorEscala,
-            chocolateMeioAmargo: this.chocolateMeioAmargo * fatorEscala
-        };
-
-        return this.receita;
+            leite: Number((this.leite * fatorEscala).toFixed(2)),
+            creme: Number((this.creme * fatorEscala).toFixed(2)),
+            acucar: Number((this.acucar * fatorEscala).toFixed(2)),
+            sucoMaracuja: Number((this.sucoMaracuja * fatorEscala).toFixed(2)),
+            caldaChocolate: Number((this.caldaChocolate * fatorEscala).toFixed(2))
+        }
+        return this.receita
     }
 
-    calcularQtdeSorvetes(pesoUnitario) {
-        if (pesoUnitario <= 0) return 0;
-        this.totalSorvetes = Math.floor(1000000 / pesoUnitario);
-        return this.totalSorvetes;
+    // Recebe o peso unitário do programa principal
+    calcularQtdeSorvete(pesoUnitario) {
+        this.totalSorvete = 1000000 / pesoUnitario
+        this.verificarQtdeSorvete()
+        return this.totalSorvete
+    }
+
+    verificarQtdeSorvete() {
+        // regra de negócio: apenas potes de sorvete inteiros
+        this.totalSorvete = Math.floor(this.totalSorvete)
     }
 }
