@@ -1,29 +1,17 @@
-
 export default class Custo {
-    // Valores em R$ por kg ou por Litro (ex: leite R$ 5.50/L)
-    constructor(
-        leiteIntegral = 5.50, 
-        leiteCondensado = 18.00, 
-        cremeDeLeite = 22.00, 
-        polpadeMaracuja = 35.00, 
-        ligaNeutra = 45.00, 
-        emulsificante = 38.00, 
-        chocolateMeioAmargo = 55.00
-    ) {
-        this.leiteIntegral = leiteIntegral;
-        this.leiteCondensado = leiteCondensado;
-        this.cremeDeLeite = cremeDeLeite;
-        this.polpadeMaracuja = polpadeMaracuja;
-        this.ligaNeutra = ligaNeutra;
-        this.emulsificante = emulsificante;
-        this.chocolateMeioAmargo = chocolateMeioAmargo;
-
-        // Atributos do resultado dos cálculos
-        this.precoIngredientes = {};
-        this.totalCusto = 0;
+    // Valores em R$ por kg ou por Litro
+    constructor(leite = 4.50, creme = 22.00, acucar = 4.89, sucoMaracuja = 15.00, caldaChocolate = 25.00) {
+        this.leite = leite
+        this.creme = creme
+        this.acucar = acucar
+        this.sucoMaracuja = sucoMaracuja
+        this.caldaChocolate = caldaChocolate
+        // atributo do resultado dos cálculos
+        this.preco = {}
+        this.totalCusto = 0
     }
 
-    // Recebe o objeto qtdeIngredientes calculado pela classe Receita
+    // Recebe o objeto qtdeIngredientes (que já passou pelas regras da Receita)
     calcularCusto(qtdeIngredientes) {
         // Dividimos a qtde (gramas) por 1000 para obter quilos/litros e multiplicamos pelo preço
         this.precoIngredientes = {
@@ -42,10 +30,14 @@ export default class Custo {
     }
 
     somarTotalCusto() {
-        // Soma todos os valores do objeto de preços
         const valores = Object.values(this.precoIngredientes);
         const somaBruta = valores.reduce((acumulador, valor) => acumulador + valor, 0);
         
         this.totalCusto = Number(somaBruta.toFixed(2));
+    }
+
+    calcularCustoPorPote(totalSorvete) {
+        if (!totalSorvete || totalSorvete <= 0) return 0
+        return Number((this.totalCusto / totalSorvete).toFixed(2))
     }
 }
