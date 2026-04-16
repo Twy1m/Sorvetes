@@ -1,37 +1,43 @@
 import Receita from '../models/Receita.js'
-
-describe('Testes da Regra de Negócio: Classe Receita', () => {
-    test('Deve calcular a proporção de ingredientes para 1 Tonelada com receita padrão', () => {
-        // 1. PREPARAR: Criar uma receita sem passar valores (vai usar o padrão do construtor)
-        const receitaPadrao = new Receita()
-        // 2. AGIR
-        const proporcao = receitaPadrao.calcularQtdeIngredientes()
-        // 3. VALIDAR:
-        // A) Validando se a soma do peso base padrão está correta (500+300+150+100+50)
-        expect(receitaPadrao.pesoBase).toBe(1100)
-        // B) Validando o Leite: 500 * (1.000.000 / 1100) = 454545.454... toFixed(2) = 454545.45
-        expect(proporcao.leite).toBe(454545.45)
-        // C) Validando o Creme: 300 * (1.000.000 / 1100) = 272727.272... toFixed(2) = 272727.27
-        expect(proporcao.creme).toBe(272727.27)
-    })
-
-    test('Deve calcular a quantidade de sorvetes inteiros (Rendimento)', () => {
-        // 1. PREPARAR
+ 
+describe('Classe Receita', () => {
+ 
+    test('Deve calcular o pesoBase corretamente com valores padrão', () => {
         const receita = new Receita()
-
-        // Pegando o peso exato do pote médio descoberto no teste do Sorvete!
-        const pesoDoPoteMedio = 1295.906
-        // 2. AGIR
-        const totalDeSorvetes = receita.calcularQtdeSorvete(pesoDoPoteMedio)
-        // 3. VALIDAR: Regra de Negócio do Sorvete (Arredondamento para BAIXO)
-        // 1.000.000 / 1295.906 = 771.647... A regra exige cortar as sobras (Math.floor)
-        expect(totalDeSorvetes).toBe(771)
+        // 200 + 134 + 100 + 50 + 3.5 + 5 + 20 = 512.5
+        expect(receita.pesoBase).toBe(512.5)
     })
-
-    test('Deve permitir criar uma receita com pesos personalizados', () => {
-        // PREPARAR: Criando uma receita com o dobro de leite (1000) e creme (600)
-        const receitaEspecial = new Receita(1000, 600, 150, 100, 50)
-        // VALIDAR: O peso base agora deve ser maior
-        expect(receitaEspecial.pesoBase).toBe(1900)
+ 
+    test('Deve calcular o pesoBase com valores personalizados', () => {
+        const receita = new Receita(300, 200, 150, 80, 5, 10, 30)
+        // 300+200+150+80+5+10+30 = 775
+        expect(receita.pesoBase).toBe(775)
+    })
+ 
+    test('calcularQtdeIngredientes deve escalar para 1 tonelada', () => {
+        const receita = new Receita()
+        const resultado = receita.calcularQtdeIngredientes()
+        const fator = 1000000 / 512.5
+ 
+        expect(resultado.leiteIntegral).toBeCloseTo(200 * fator, 2)
+        expect(resultado.leiteCondensado).toBeCloseTo(134 * fator, 2)
+        expect(resultado.cremeDeLeite).toBeCloseTo(100 * fator, 2)
+    })
+ 
+    test('calcularQtdeSorvetes deve retornar quantidade inteira (Math.floor)', () => {
+        const receita = new Receita()
+        // 1.000.000 / 900 = 1111.11... → 1111
+        expect(receita.calcularQtdeSorvetes(900)).toBe(1111)
+    })
+ 
+    test('calcularQtdeSorvetes deve retornar 0 para peso inválido', () => {
+        const receita = new Receita()
+        expect(receita.calcularQtdeSorvetes(0)).toBe(0)
+    })
+ 
+    test('calcularQtdeSorvetes deve armazenar o resultado em totalSorvetes', () => {
+        const receita = new Receita()
+        receita.calcularQtdeSorvetes(400)
+        expect(receita.totalSorvetes).toBe(2500)
     })
 })
