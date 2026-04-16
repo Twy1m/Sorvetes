@@ -18,6 +18,7 @@
 | _(Fabio Trevisan)_ | Desenvolvimento das classes  |
 | _(Juan Saragoza)_  | Desenvolvimento do Index     |
 
+![Logo](./img/sorvt_logo.png)
 
 ## 2. Visão Geral do Sistema
 
