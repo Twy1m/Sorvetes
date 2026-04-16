@@ -15,7 +15,7 @@ export default class Sorvetes{
 
     calcularRaio(){
         //Alterei a formula pra encaixar melhor
-        return Math.sqrt(this.calcularRaio() / (Math.PI * this.altura));
+        return Math.sqrt(this.calcularVolume() / (Math.PI * this.altura));
         
     }
 
