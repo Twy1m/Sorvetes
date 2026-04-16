@@ -20,7 +20,7 @@
             <h2 class="subtitulo-heroi">Verifique sua produção aqui</h2>
             <h2 class="titulo-formulario">CÁLCULO DE PRODUÇÃO</h2>
 
-            <form class="formulario-calculadora">
+            <form class="formulario-calculadora" id="formulario">
                 <div class="grupo-formulario">
                     <label>Sabor Especial</label>
                     <input type="text" value="Maracujá Trufado" readonly class="entrada-app">
@@ -42,7 +42,7 @@
 
                 <div class="grupo-formulario">
                     <label>Tamanho do Recipiente</label>
-                    <select class="entrada-app" required>
+                    <select class="entrada-app" id="peso" required>
                         <option value="" disabled selected>Selecione o tamanho</option>
                         <option value="400">Pequeno (400g)</option>
                         <option value="900">Médio (900g)</option>
@@ -50,16 +50,16 @@
                     </select>
                 </div>
 
-                <div class="linha-formulario">
+                <!-- <div class="linha-formulario">
                     <div class="grupo-formulario">
                         <label>Raio (cm)</label>
-                        <input type="number" step="0.1" min="0.1" placeholder="Ex: 5" class="entrada-app" required>
+                        <input type="number" step="0.1" min="0.1" placeholder="Ex: 5" class="entrada-app" id="raio" required>
                     </div>
                     <div class="grupo-formulario">
                         <label>Altura (cm)</label>
-                        <input type="number" step="0.1" min="0.1" placeholder="Ex: 10" class="entrada-app" required>
+                        <input type="number" step="0.1" min="0.1" placeholder="Ex: 10" class="entrada-app" id="altura" required>
                     </div>
-                </div>
+                </div> -->
 
                 <button type="submit" class="btn botao-calcular">Processar Produção</button>
             </form>
@@ -71,32 +71,30 @@
             <div class="grade-resultados">
                 <div class="cartao-resultado">
                     <h4>Dimensões do Pote</h4>
-                    <p>Volume Calculado: <strong>-- cm³</strong></p>
-                    <p>Massa Suportada: <strong>-- g</strong></p>
+                    <p>Volume Calculado: <strong id="res-volume">-- cm³</strong></p>
+                    <p>Massa Suportada: <strong id="res-massa">-- g</strong></p>
                 </div>
 
                 <div class="cartao-resultado destaque">
                     <h4>Projeção de Envasamento</h4>
-                    <p class="numero-grande">--</p>
+                    <p class="numero-grande" id="res-qtde-potes">--</p>
                     <p>potes inteiros</p>
                 </div>
 
                 <div class="cartao-resultado">
                     <h4>Análise de Custo</h4>
-                    <p>Custo Total: <strong>--</strong></p>
-                    <p>Custo por Pote: <strong>--</strong></p>
+                    <p>Custo Total: <strong id="res-custo-total">--</strong></p>
+                    <p>Custo por Pote: <strong id="res-custo-pote">--</strong></p>
                 </div>
 
                 <div class="cartao-resultado">
                     <h4>Lista de Compras (Insumos)</h4>
                     <ul>
-                        <li><span>Leite Integral</span> <strong>-- kg</strong></li>
-                        <li><span>Leite Condensado</span> <strong>-- kg</strong></li>
-                        <li><span>Creme de Leite</span> <strong>-- kg</strong></li>
-                        <li><span>Polpa de Maracujá</span> <strong>-- kg</strong></li>
-                        <li><span>Liga Neutra</span> <strong>-- kg</strong></li>
-                        <li><span>Emulsificante</span> <strong>-- kg</strong></li>
-                        <li><span>Chocolate Meio Amargo</span> <strong>-- kg</strong></li>
+                        <li><span>Leite</span> <strong id="res-leite">-- kg</strong></li>
+                        <li><span>Creme de Leite</span> <strong id="res-creme">-- kg</strong></li>
+                        <li><span>Açúcar</span> <strong id="res-acucar">-- kg</strong></li>
+                        <li><span>Suco de Maracujá</span> <strong id="res-sucoMaracuja">-- kg</strong></li>
+                        <li><span>Calda Chocolate</span> <strong id="res-caldaChocolate">-- kg</strong></li>
                     </ul>
                 </div>
             </div>
@@ -106,6 +104,8 @@
     <footer>
         <small>Sorvt&trade; - Todos os direitos reservados</small>
     </footer>
+
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>
