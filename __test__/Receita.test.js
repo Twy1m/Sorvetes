@@ -4,24 +4,26 @@ describe('Classe Receita', () => {
  
     test('Deve calcular o pesoBase corretamente com valores padrão', () => {
         const receita = new Receita()
-        // 200 + 134 + 100 + 50 + 3.5 + 5 + 20 = 512.5
-        expect(receita.pesoBase).toBe(512.5)
+        // 450 + 180 + 110 + 120 + 50 = 910
+        expect(receita.pesoBase).toBe(910)
     })
  
     test('Deve calcular o pesoBase com valores personalizados', () => {
-        const receita = new Receita(300, 200, 150, 80, 5, 10, 30)
-        // 300+200+150+80+5+10+30 = 775
-        expect(receita.pesoBase).toBe(775)
+        const receita = new Receita(500, 200, 150, 100, 50)
+        // 500+200+150+100+50 = 1000
+        expect(receita.pesoBase).toBe(1000)
     })
  
     test('calcularQtdeIngredientes deve escalar para 1 tonelada', () => {
         const receita = new Receita()
         const resultado = receita.calcularQtdeIngredientes()
-        const fator = 1000000 / 512.5
+        const fator = 1000000 / 910
  
-        expect(resultado.leiteIntegral).toBeCloseTo(200 * fator, 2)
-        expect(resultado.leiteCondensado).toBeCloseTo(134 * fator, 2)
-        expect(resultado.cremeDeLeite).toBeCloseTo(100 * fator, 2)
+        expect(resultado.leite).toBeCloseTo(450 * fator, 2)
+        expect(resultado.creme).toBeCloseTo(180 * fator, 2)
+        expect(resultado.acucar).toBeCloseTo(110 * fator, 2)
+        expect(resultado.sucoMaracuja).toBeCloseTo(120 * fator, 2)
+        expect(resultado.caldaChocolate).toBeCloseTo(50 * fator, 2)
     })
  
     test('calcularQtdeSorvetes deve retornar quantidade inteira (Math.floor)', () => {
