@@ -1,30 +1,62 @@
 import Sorvete from "./models/Sorvete.js";
 import Receita from "./models/Receita.js";
 import Custo from "./models/Custo.js";
-const divRes = document.getElementById("divRes");
 
-// const peso = Number(document.getElementById('peso'))
+const formulario = document.getElementById("formulario");
 
-const tamanho = new Sorvete(peso);
-const pesoSorvete = tamanho.conversaoMassa();
+formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-const receita = new Receita();
-const qtdeIngredientes = receita.calcularQtdeIngredientes();
-const qtdeSorvete = receita.calcularQtdeSorvetes(peso);
+    // --- LEITURA DO FORMULÁRIO ---
+    const peso       = Number(document.getElementById("peso").value);
+    const tonelagem  = Number(document.querySelector('input[name="tonelagem"]:checked').value);
 
-const custo = new Custo();
-const precosIngredientes = custo.calcularCusto(qtdeIngredientes);
+    // --- CÁLCULOS ---
+    const sorvete   = new Sorvete(peso);
+    const volume    = sorvete.calcularVolume();
+    const massa     = sorvete.conversaoMassa();
 
-divRes.innerHTML += `<p>A quantidade de sorvete é: <strong>${qtdeSorvete}</strong></p>`;
+    const receita           = new Receita();
+    const qtdeIngredientes  = receita.calcularQtdeIngredientes();
+    const qtdePotes         = receita.calcularQtdeSorvetes(peso);
 
-divRes.innerHTML += `<p>--- Quantidade de Ingredientes ---</p> 
-                    <pre>${JSON.stringify(qtdeIngredientes, null, 2)}</pre>`;
+    const custo             = new Custo();
+    const precosIngredientes = custo.calcularCusto(qtdeIngredientes);
+    const custoPorPote      = custo.calcularCustoPorPote(qtdePotes);
 
-divRes.innerHTML += `<p>--- Custo dos Ingredientes (R$) ---</p>
-                   <pre>${JSON.stringify(precosIngredientes, null, 2)}</pre>`;
+    // Fator de escala para a tonelagem escolhida (1, 5 ou 12 toneladas)
+    const fatorTon = tonelagem;
 
-divRes.innerHTML += `<p>--- Custo por pote (R$) ---</p>
-<pre>${JSON.stringify(custo.calcularCustoPorPote(), null, 2)}</pre>`;
+    
+    // --- ATUALIZA O HTML ---
+    document.getElementById("res-volume").textContent =
+        `${volume.toFixed(2)} cm³`;
 
-divRes.innerHTML += ` <p>O custo total de produção é: <strong>R$ ${custo.totalCusto()}</strong></p>
-                     <p>O custo de massa por sorvete é: <strong>R$ ${(custo.totalCusto() / qtdeSorvete).toFixed(2)}</strong></p>`
+    document.getElementById("res-massa").textContent =
+        `${massa.toFixed(2)} g`;
+
+    document.getElementById("res-qtde-potes").textContent =
+        (qtdePotes * fatorTon).toLocaleString("pt-BR");
+
+    document.getElementById("res-custo-total").textContent =
+        `R$ ${(custo.totalCusto * fatorTon).toFixed(2)}`;
+
+    document.getElementById("res-custo-pote").textContent =
+        `R$ ${custoPorPote}`;
+
+    // Lista de compras — converte g para kg e aplica tonelagem
+    document.getElementById("res-leite").textContent =
+        `${((qtdeIngredientes.leite / 1000) * fatorTon).toFixed(2)} kg`;
+
+    document.getElementById("res-creme").textContent =
+        `${((qtdeIngredientes.creme / 1000) * fatorTon).toFixed(2)} kg`;
+
+    document.getElementById("res-acucar").textContent =
+        `${((qtdeIngredientes.acucar / 1000) * fatorTon).toFixed(2)} kg`;
+
+    document.getElementById("res-sucoMaracuja").textContent =
+        `${((qtdeIngredientes.sucoMaracuja / 1000) * fatorTon).toFixed(2)} kg`;
+
+    document.getElementById("res-caldaChocolate").textContent =
+        `${((qtdeIngredientes.caldaChocolate / 1000) * fatorTon).toFixed(2)} kg`;
+});
