@@ -3,19 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "vite", 
+    "build": "vite build",
+    "preview": "vite preview" 
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "jest": "^30.3.0",
-    "vite": "^8.0.3"
+    "jest": "^30.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.2",
-    "babel-jest": "^30.3.0"
+    "babel-jest": "^30.3.0",
+    "vite": "^8.0.8"
   }
 }
