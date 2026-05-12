@@ -5,58 +5,79 @@ import Custo from "./models/Custo.js";
 const formulario = document.getElementById("formulario");
 
 formulario.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // --- LEITURA DO FORMULÁRIO ---
-    const peso       = Number(document.getElementById("peso").value);
-    const tonelagem  = Number(document.querySelector('input[name="tonelagem"]:checked').value);
+  // --- LEITURA DO FORMULÁRIO ---
+  const peso = Number(document.getElementById("peso").value);
+  const tonelagem = Number(
+    document.querySelector('input[name="tonelagem"]:checked').value
+  );
 
-    // --- CÁLCULOS ---
-    const sorvete   = new Sorvete(peso);
-    const volume    = sorvete.calcularVolume();
-    const massa     = sorvete.conversaoMassa();
+  // --- CÁLCULOS ---
+  const sorvete = new Sorvete(peso);
+  const raio = sorvete.calcularRaio()
+  const volume = sorvete.calcularVolume();
+  const massa = sorvete.conversaoMassa();
 
-    const receita           = new Receita();
-    const qtdeIngredientes  = receita.calcularQtdeIngredientes();
-    const qtdePotes         = receita.calcularQtdeSorvetes(peso);
+  const receita = new Receita();
+  const qtdeIngredientes = receita.calcularQtdeIngredientes();
+  const qtdePotes = receita.calcularQtdeSorvetes(peso);
 
-    const custo             = new Custo();
-    const precosIngredientes = custo.calcularCusto(qtdeIngredientes);
-    const custoPorPote      = custo.calcularCustoPorPote(qtdePotes);
+  const custo = new Custo();
+  const precosIngredientes = custo.calcularCusto(qtdeIngredientes);
+  const custoPorPote = custo.calcularCustoPorPote(qtdePotes);
 
-    // Fator de escala para a tonelagem escolhida (1, 5 ou 12 toneladas)
-    const fatorTon = tonelagem;
+  // Fator de escala para a tonelagem escolhida (1, 5 ou 12 toneladas)
+  const fatorTon = tonelagem;
 
-    
-    // --- ATUALIZA O HTML ---
-    document.getElementById("res-volume").textContent =
-        `${volume.toFixed(2)} cm³`;
+  // --- ATUALIZA O HTML ---
+  document.getElementById("res-raio").textContent = `${raio.toFixed(
+    2
+  )} cm`;
 
-    document.getElementById("res-massa").textContent =
-        `${massa.toFixed(2)} g`;
+  document.getElementById("res-altura").textContent = `${sorvete.altura.toFixed(
+    2
+  )} cm`;
 
-    document.getElementById("res-qtde-potes").textContent =
-        (qtdePotes * fatorTon).toLocaleString("pt-BR");
+  document.getElementById("res-volume").textContent = `${volume.toFixed(
+    2
+  )} cm³`;
 
-    document.getElementById("res-custo-total").textContent =
-        `R$ ${(custo.totalCusto * fatorTon).toFixed(2)}`;
+  document.getElementById("res-massa").textContent = `${massa.toFixed(2)} g`;
 
-    document.getElementById("res-custo-pote").textContent =
-        `R$ ${custoPorPote}`;
+  document.getElementById("res-qtde-potes").textContent = (
+    qtdePotes * fatorTon
+  ).toLocaleString("pt-BR");
 
-    // Lista de compras — converte g para kg e aplica tonelagem
-    document.getElementById("res-leite").textContent =
-        `${((qtdeIngredientes.leite / 1000) * fatorTon).toFixed(2)} kg`;
+  document.getElementById("res-custo-total").textContent = `R$ ${(
+    custo.totalCusto * fatorTon
+  ).toFixed(2)}`;
 
-    document.getElementById("res-creme").textContent =
-        `${((qtdeIngredientes.creme / 1000) * fatorTon).toFixed(2)} kg`;
+  document.getElementById("res-custo-pote").textContent = `R$ ${custoPorPote}`;
 
-    document.getElementById("res-acucar").textContent =
-        `${((qtdeIngredientes.acucar / 1000) * fatorTon).toFixed(2)} kg`;
+  // Lista de compras — converte g para kg e aplica tonelagem
+  document.getElementById("res-leite").textContent = `${(
+    (qtdeIngredientes.leite / 1000) *
+    fatorTon
+  ).toFixed(2)} kg`;
 
-    document.getElementById("res-sucoMaracuja").textContent =
-        `${((qtdeIngredientes.sucoMaracuja / 1000) * fatorTon).toFixed(2)} kg`;
+  document.getElementById("res-creme").textContent = `${(
+    (qtdeIngredientes.creme / 1000) *
+    fatorTon
+  ).toFixed(2)} kg`;
 
-    document.getElementById("res-caldaChocolate").textContent =
-        `${((qtdeIngredientes.caldaChocolate / 1000) * fatorTon).toFixed(2)} kg`;
+  document.getElementById("res-acucar").textContent = `${(
+    (qtdeIngredientes.acucar / 1000) *
+    fatorTon
+  ).toFixed(2)} kg`;
+
+  document.getElementById("res-sucoMaracuja").textContent = `${(
+    (qtdeIngredientes.sucoMaracuja / 1000) *
+    fatorTon
+  ).toFixed(2)} kg`;
+
+  document.getElementById("res-caldaChocolate").textContent = `${(
+    (qtdeIngredientes.caldaChocolate / 1000) *
+    fatorTon
+  ).toFixed(2)} kg`;
 });
